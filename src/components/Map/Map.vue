@@ -44,7 +44,7 @@ export default {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       zoom: 5,
       max: 10,
-      min: 1,
+      min: 2,
       center: initCenter(),
       staticAnchor: [16, 37],
       customText: 'Foobar',
