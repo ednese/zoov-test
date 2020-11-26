@@ -1,0 +1,55 @@
+.zoov-container {
+    position: relative;
+    margin: 0 auto;
+    width: 800px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 2px 05px rgb(200, 200, 200);
+}
+.v-btn  {
+    min-width: 0;
+}
+/* RESPONSIVE */
+@media screen and (max-width: 1000px) {
+    .zoov-container {
+        width: 90%;
+    }
+}
+
+/* ANIMATION */
+.custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+  }
+  @-moz-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-o-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

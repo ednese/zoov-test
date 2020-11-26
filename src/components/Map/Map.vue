@@ -1,36 +1,29 @@
 <template>
-  <l-map style="height: 350px" :zoom="zoom" :center="center">
-    <l-tile-layer :url="url"></l-tile-layer>
-    <l-marker v-for="bike in bikes" :lat-lng="bike.location.coordinates" :key="bike.name">
-      <!-- <l-popup :content="bike.name"/> -->
-      <l-popup>
-        {{bike.name}}
-        <a v-on:click="updateBike(bike)">Update</a>
-        <br/>
-        <a v-on:click="deleteBike(bike._id)">Delete</a>
-        Plus d'infos
-        <!-- <img src="../../assets/pin.png"> -->
-      </l-popup>
-      <l-icon
-                :icon-anchor="staticAnchor"
-                class-name="someExtraClass">
-        <img class="marker" src="../../assets/pin.png">
-      </l-icon>
-    </l-marker>
-    <!-- <l-marker :lat-lng="[47.413220, -1.189482]">
-      <l-popup>
-        test
-      </l-popup>
-      <l-icon
-                :icon-anchor="staticAnchor"
-                class-name="someExtraClass">
-        <img class="marker" src="../../assets/pin.png">
-      </l-icon>
-    </l-marker> -->
-  </l-map>
+  <div class="Map">
+    <v-img class="map-container zoov-container">
+      <l-map style="height: 500px" :zoom="zoom" :center="center" :maxZoom="max" :minZoom="min">
+        <l-tile-layer :url="url"></l-tile-layer>
+        <l-marker v-on:click="updateBike(bike)" v-for="bike in bikes" :lat-lng="bike.location.coordinates" :key="bike.name">
+          <l-popup>
+            {{bike.serial_number}}
+            {{bike.battery_level}}%
+          </l-popup>
+          <l-icon
+                    :icon-anchor="staticAnchor"
+                    class-name="someExtraClass">
+            <img class="marker" :src="require(`../../assets/marker_${bike.service_status}.png`)">
+          </l-icon>
+        </l-marker>
+      </l-map>
+    </v-img >
+  </div>
 </template>
 
 <script>
+// STYLE
+import './Map.css';
+
+// MAP
 import {LMap, LTileLayer, LMarker, LIcon, LPopup} from 'vue2-leaflet';
 
 export default {
@@ -43,16 +36,16 @@ export default {
     LPopup
   },
   data() {
+    const initCenter = () => {
+      let tab = [47.413220, -1.219482];
+      return tab;
+    }
     return {
-      // bikes: [
-      //   { name: 'Sol', lng: -1.229482, lat: 47.413220 },
-      //   { name: 'Mizar', lng: -1.219482, lat: 47.413220 },
-      //   { name: 'Krueger-Z', lng: -1.209482, lat: 47.413220 },
-      //   { name: 'Deneb', lng: -1.199482, lat: 47.413220 }
-      // ],
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      zoom: 13,
-      center: [47.413220, -1.219482],
+      zoom: 5,
+      max: 10,
+      min: 1,
+      center: initCenter(),
       staticAnchor: [16, 37],
       customText: 'Foobar',
       iconSize: 64
@@ -69,9 +62,6 @@ export default {
   methods: {
     updateBike (bike) {
       this.$emit('update', bike)
-    },
-    deleteBike (id) {
-      this.$emit('delete', id)
     },
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
@@ -91,25 +81,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.someExtraClass {
-  background-color: aqua;
-  padding: 10px;
-  border: 1px solid #333;
-  border-radius: 0 20px 20px 20px;
-  box-shadow: 5px 3px 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  width: auto !important;
-  height: auto !important;
-  margin: 0 !important;
-}
-l-popup {
-  display: none;
-
-}
-.marker {
-  margin: 25px 0 0 -5px;
-  width: 40px;
-}
-</style>

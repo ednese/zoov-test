@@ -1,0 +1,46 @@
+.addBike {
+    background: rgb(220, 240, 253);
+    padding: 2em 0;
+}
+.add-container {
+    padding: 2em;
+}
+.add-fields {
+    display: flex;
+    margin: 20px 0;
+}
+.add-serial--battery {
+    margin: 5px;
+    display: none;
+}
+v-text-field {
+    margin: 50px;
+}
+.add-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.a-btn.small {
+    display: none;
+}
+/* RESPONSIVE */
+@media screen and (max-width: 650px) {
+    .a-title {
+        font-size: 25px;
+    }
+    .a-subtitle {
+        font-size: 15px;
+    }
+    .v-btn  {
+        min-width: 0;
+    }
+}
+@media screen and (max-width: 500px) {
+    .a-btn.normal {
+        display: none;
+    }
+    .a-btn.small {
+        display: inline-flex;
+    }
+}

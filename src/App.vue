@@ -1,49 +1,56 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <Map :bikes="bikes" @delete="deleteBike" @update="updateComponent"/>
-    <Update v-if="update.toggle" :bike="update.value" @update="updateBike"/>
-    <button v-on:click="addBike">Add</button>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="#33c5ff"
+      dark
+    >
+      <div class="d-flex align-center">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="./assets/logo-zoov.png"
+          transition="scale-transition"
+          width="200"
+        />
+      </div>
+    </v-app-bar>
+    <v-main>
+      <HandleBikes @delete="deleteBike" :item="update.value" :toggle="update.toggle" :bikes="bikes"/>
+      <Map :bikes="bikes" @update="updateComponent"/>
+      <AddBike @add="addBike" :bikes="bikes"/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-
+// COMPONENTS
 import Map from './components/Map/Map.vue'
-import Update from './components/Update/Update.vue'
+import HandleBikes from './components/HandleBikes/HandleBikes.vue'
+import AddBike from './components/AddBike/AddBike.vue'
 
+// STYLE
+import './Style.css';
 
 export default {
   name: 'App',
   components: {
-    // HelloWorld,
+    HandleBikes,
     Map,
-    Update
+    AddBike
   },
   mounted(){
-    
-    fetch("https://jsonbox.io/box_b69b3da57840514863a4")
+    fetch("https://jsonbox.io/box_6da2f060d93632fac7f1")
     .then(response => response.json())
     .then(json => {
       this.bikes = json;
     })
   },
   methods: {
-    addBike: function () {
-      const data = {
-        serial_number: "JZ345V",
-        location: {
-          type: "Point",
-          coordinates: [2.24356, 48.7723]
-        },
-        in_order: true,
-        service_status: 2,
-        battery_level: 54
-      }
-      const link = "https://jsonbox.io/box_b69b3da57840514863a4";
-      this.bikes = [...this.bikes, data];
+    addBike: function (data) {
+      const link = "https://jsonbox.io/box_6da2f060d93632fac7f1";
+      this.bikes = [...this.bikes, { ...data }];
       fetch(link, {
         method: 'POST',
         headers: {
@@ -56,55 +63,18 @@ export default {
       this.update.toggle = true;
       this.update.value = bike;
     },
-    updateBike: function (data) {
+    deleteBike: function (serial_number) {
+      const link = "https://jsonbox.io/box_6da2f060d93632fac7f1/?q=serial_number:" + serial_number;
       const tmp = [...this.bikes];
-      this.bikes = tmp.map(bike => {
-        if (bike._id === data.id)
-          return data.value;
-        else
-            return bike;
-      })
-      this.update.toggle = false;
-    },
-    deleteBike: function (id) {
-      const link = "https://jsonbox.io/box_b69b3da57840514863a4/" + id;
-      const tmp = [...this.bikes];
-      this.bikes = tmp.filter(bike => bike._id !== id)
+      this.bikes = tmp.filter(bike => bike.serial_number !== serial_number)
       fetch(link, {method: 'DELETE'})
+      this.update.toggle = false;
     }
   },
-  data () {
-    return {
-      active: false,
-      update: {toggle: false, value: {}},
-      bikes: []
-    }
-  }
-}
+  data: () => ({
+    active: false,
+    update: {toggle: false, service_status: '', value: {location: {coordinates: []}}},
+    bikes: []
+  }),
+};
 </script>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
-* {
-  margin: 0;
-  padding: 0;
-}
-html {
-  scroll-behavior: smooth;
-}
-#app {
-  font-family: 'Quicksand', Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-a {
-  text-decoration: none;
-}
-li {
-  list-style: none;
-}
-textarea:focus, input:focus, button, select, select:hover {
-  outline: none;
-}
-</style>

@@ -1,0 +1,11 @@
+.marker {
+    margin: 25px 0 0 -5px;
+    width: 40px;
+}
+.Map {
+    background: rgb(220, 240, 253);
+}
+.map-container {
+    border: 5px solid white;
+}
+
