@@ -2,11 +2,11 @@
 
 ## Outils
 ```
-Pour ce test, j'ai décidé d'utiliser pour la première vuetify car je n'es pas réussi à utiliser
+Pour ce test, j'ai décidé d'utiliser pour la première fois vuetify car je n'es pas réussi à utiliser
 votre design system. En effet, lorsque je l'installais, j'avais une erreur qui devait être dû
 à ma version de Vue et j'ai donc préféré ne pas l'utiliser pour l'instant et en apprendre plus sur vuetify.
 
-Pour ce qui est de la map, j'ai utilisé Leaflet car je l'ai déjà utilisé auparavant.
+Pour ce qui est de la map, j'ai utilisé Leaflet car j'ai déjà codé avec auparavant.
 ```
 
 ## Application
